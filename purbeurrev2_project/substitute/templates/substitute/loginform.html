@@ -1,0 +1,36 @@
+<form action="{% url 'login' %}" method="post" accept-charset="utf-8">
+{% csrf_token %}
+  <div class="form_group mt-5">
+    {% csrf_token %}
+    <div class="row text-center">
+      <div class="col-4 text-right my-2 text-white">
+        {{ form.username.label_tag }}
+      </div>
+      <div class="col-4 my-2">
+        {{ form.username }}
+      </div>
+    </div>
+    <div class="row text-center">
+      <div class="col-4 text-right my-2 text-white">
+        {{ form.password.label_tag }}
+      </div>
+      <div class="col-4 my-2">
+        {{ form.password }}
+      </div>
+    </div>
+    <input class="my-2" type="submit" value="Se connecter" />
+    <input class="" type="hidden" name="next" value="{{ next }}" />
+  </div>
+</form>
+<p><a href="{% url 'password_reset' %}">Mot de passe oublié?</a></p>
+{% if form.errors %}
+  <p class="text-warning">Nom d'utilisateur ou mot de passe invalide. Essayez de nouveau.</p>
+{% endif %}
+
+{% if next %}
+  {% if user.is_authenticated %}
+    <p class="text-warning">Votre compte ne vous permet pas d'accéder a cette page.</p>
+  {% else %}
+    <p class="text-warning">Connectez vous pour voir cette page.</p>
+  {% endif %}
+{% endif %}
