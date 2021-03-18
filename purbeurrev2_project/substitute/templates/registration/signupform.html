@@ -1,0 +1,20 @@
+<form action="{% url 'substitute:signup' %}" method="post" accept-charset="utf-8">
+{% csrf_token %}
+{% for field in form %}
+  <div class="form_group mt-5">
+    <div class="text-white">
+      {{ field.label_tag }}
+    </div>
+    <div class="mb-2">
+      {{ field }}
+    </div>
+    {% if field.help_text %}
+      <p class="small text-white">{{ field.help_text }}</p>
+    {% endif %}
+    {% for error in field.errors %}
+      <p class="small text-warning">{{ error }}</p>
+    {% endfor %}
+  </div>
+{% endfor %}
+    <button type="submit" class="btn btn-primary">Valider</button>
+</form>

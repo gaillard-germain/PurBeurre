@@ -14,8 +14,8 @@
         <!-- Google fonts-->
         <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet" type="text/css">
         <link href="https://fonts.googleapis.com/css?family=Scope+One" rel="stylesheet" type="text/css">
-        <link href="https://fonts.googleapis.com/css?family=Merriweather+Sans:400,700" rel="stylesheet" />
-        <link href="https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic" rel="stylesheet" type="text/css" />
+        <!-- <link href="https://fonts.googleapis.com/css?family=Merriweather+Sans:400,700" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic" rel="stylesheet" type="text/css" /> -->
         <!-- Third party plugin CSS-->
         <link href="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/magnific-popup.min.css" rel="stylesheet" />
         <!-- Core theme CSS (includes Bootstrap)-->
@@ -32,15 +32,21 @@
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
                     <ul class="navbar-nav ml-auto my-2 my-lg-0">
-                        <li class="nav-item">
+                        <li class="form-inline">
                           <form class="" action="" method="post" accept-charset="utf-8">
                           {% csrf_token %}
                             <input id="searchForm" class="form-control bg-light" name="query" placeholder="Chercher">
                           </form>
                         </li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/accounts/login">Mon compte</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#">Mes aliments</a></li>
-                        <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#">Déconnexion</a></li>
+                        {% if user.is_authenticated %}
+                          <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/accounts/login">Mon compte</a></li>
+                          <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#">Mes aliments</a></li>
+                          <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{% url 'substitute:logout' %}">Déconnexion</a></li>
+                          <li class="navbar-text text-muted py-0 my-0">Compte: {{ user.username }}</li>
+                        {% else %}
+                          <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/accounts/login">Se connecter</a></li>
+                          <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{% url 'substitute:signup' %}">Créer un compte</a></li>
+                        {% endif %}
                     </ul>
                 </div>
             </div>
@@ -51,7 +57,7 @@
             <div class="container">
               <div class="row text-center">
                 <a class="col-6 small text-muted" href="#">Mentions légales</a>
-                <a class="col-6 small text-muted" href="#contact">Contact</a>
+                <a class="col-6 small text-muted" href="/#contact">Contact</a>
               </div>
             </div>
         </footer>
