@@ -6,7 +6,7 @@ class Product(models.Model):
     name = models.CharField(max_length=200)
     brands = models.CharField(max_length=200)
     tags = models.CharField(max_length=400)
-    ingredients = models.TextField()
+    ingredients = models.TextField(null=True, blank=True)
     additives = models.CharField(max_length=300, null=True, blank=True)
     allergens = models.CharField(max_length=300, null=True, blank=True)
     nutriscore = models.CharField(max_length=1, null=True, blank=True)

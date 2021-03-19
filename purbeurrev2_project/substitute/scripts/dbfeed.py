@@ -1,6 +1,6 @@
 import requests
 
-from .models import Product
+from substitute.models import Product
 
 
 class Dbfeed:
@@ -19,6 +19,9 @@ class Dbfeed:
             elif isinstance(value, list):
                 value = ', '.join(value)
 
+            if value:
+                value = value.replace("en:", "")
+
         except KeyError as error:
             print("product {} doesn't have {} field".format(dict['code'],
                                                             error))
@@ -33,7 +36,7 @@ class Dbfeed:
         print('Querying datas...')
         search = 'https://fr.openfoodfacts.org/cgi/search.pl?search_terms=&\
         tagtype_0=states&tag_contains_0=contains&tag_0=checked&\
-        sort_by=unique_scans_n&page_size=20&page=1&json=1'
+        sort_by=unique_scans_n&page_size=30&page=1&json=1'
 
         all = requests.get(search)
         all = all.json()['products']
@@ -43,7 +46,7 @@ class Dbfeed:
         for entry in all:
             product = Product(
                 name = cls.format_value(entry, 'product_name'),
-                brand = cls.format_value(entry, 'brands'),
+                brands = cls.format_value(entry, 'brands'),
                 tags = cls.format_value(entry, 'categories_tags'),
                 ingredients = cls.format_value(entry, 'ingredients_text_fr'),
                 additives = cls.format_value(entry, 'additives_tags'),
@@ -58,5 +61,5 @@ class Dbfeed:
             product.save()
 
 
-if __name__ == "__main__":
+def run():
     Dbfeed.feed()
