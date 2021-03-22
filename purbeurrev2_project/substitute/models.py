@@ -15,6 +15,7 @@ class Product(models.Model):
     link = models.CharField(max_length=200)
     compared_to = models.CharField(max_length=200)
     image_url = models.CharField(max_length=200, null=True)
+    keywords = models.CharField(max_length=500)
 
     def __str__(self):
         return self.name

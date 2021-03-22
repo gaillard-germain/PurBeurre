@@ -1,0 +1,47 @@
+{% extends 'substitute/base.html' %}
+
+{% block content %}
+
+<section class="page-section bg-primary text-center pb-1">
+  <div class="container pt-5">
+    <img class="img-fluid" src="{{ product.image_url }}" alt=""/>
+    <h2>{{ product.name }}</h2>
+    <h3>{{ product.brands }}</h3>
+  </div>
+</section>
+<section class="page-section bg-secondary py-2">
+  <div class="container col-8 col-offset-2">
+    <table class="table">
+      <tr>
+        <td class="font-weight-bold">Ingredients:</td>
+        <td>{{ product.ingredients }}</td>
+      </tr>
+      <tr>
+        <td class="font-weight-bold">Additifs:</td>
+        <td>{{ product.additives|upper }}</td>
+      </tr>
+      <tr>
+        <td class="font-weight-bold">Allergènes:</td>
+        <td>{{ product.allergens }}</td>
+      </tr>
+      <tr>
+        <td class="font-weight-bold">Nutriscore:</td>
+        <td>{{ product.nutriscore|upper }}</td>
+      </tr>
+      <tr>
+        <td class="font-weight-bold">Labels:</td>
+        <td>{{ product.labels }}</td>
+      </tr>
+      <tr>
+        <td class="font-weight-bold">Distribué par:</td>
+        <td>{{ product.stores|title }}</td>
+      </tr>
+      <tr>
+        <td class="font-weight-bold">OpenFoodFacts:</td>
+        <td><a href="{{ product.link }}" target="_blank" rel="noopener noreferrer">{{ product.link }}</a></td>
+      </tr>
+    </table>
+  </div>
+</section>
+
+{% endblock %}

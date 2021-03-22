@@ -21,6 +21,7 @@ class Dbfeed:
 
             if value:
                 value = value.replace("en:", "")
+                value = value.replace("fr:", "")
 
         except KeyError as error:
             print("product {} doesn't have {} field".format(dict['code'],
@@ -56,7 +57,8 @@ class Dbfeed:
                 stores = cls.format_value(entry, 'stores_tags'),
                 link = cls.format_value(entry, 'url'),
                 compared_to = cls.format_value(entry, 'compared_to_category'),
-                image_url = cls.format_value(entry, 'image_url'))
+                image_url = cls.format_value(entry, 'image_url'),
+                keywords = cls.format_value(entry, '_keywords'))
 
             product.save()
 
