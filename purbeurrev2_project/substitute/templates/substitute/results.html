@@ -12,20 +12,40 @@
 
 <section class="page-section bg-secondary py-2">
   <div class="row align-items-end mt-2">
-    {% for alternative in alternatives %}
-    <div class="container col-md-6 col-lg-4 my-2 text-center">
-      <a href="{% url 'substitute:detail' product_id=alternative.id %}">
-        <img class="img-fluid rounded w-25 mt-1" src="{{ alternative.image_url }}" alt=""/>
-        <h5 class="text-white">{{ alternative.name }}</h5>
-        <p class="text-light">
-          {{ alternative.brands }}
-        </p>
-      </a>
-      <a href="#!" class="btn btn-outline-primary">Sauvegarder</a>
+    {% if alternatives|length_is:"0" %}
+        <div class="text-center">
+          Aucun substitut trouvé pour cet aliment !
+        </div>
+
+    {% else %}
+      {% for alternative in alternatives %}
+      <div class="container col-md-6 col-lg-4 my-2 text-center">
+        <a href="{% url 'substitute:detail' product_id=alternative.id %}">
+          <img class="img-fluid rounded w-25 mt-1" src="{{ alternative.image_url }}" alt=""/>
+          <h5 class="text-white">{{ alternative.name }}</h5>
+          <p class="text-light">
+            {{ alternative.brands }}
+          </p>
+        </a>
+        <a href="#!" class="btn btn-outline-primary">Sauvegarder</a>
+      </div>
+      {% if forloop.counter|divisibleby:3 %}<div class="clearfix"></div>{% endif %}
+      {% endfor %}
     </div>
-    {% if forloop.counter|divisibleby:3 %}<div class="clearfix"></div>{% endif %}
-    {% endfor %}
-  </div>
+  {% if paginate %}
+    <div class="clearfix"></div>
+    <nav aria-label="...">
+      <ul class="pagination justify-content-center">
+        {% if alternatives.has_previous %}
+            <li class="page-item"><a href="?page={{ alternatives.previous_page_number }}">Précédent</a></li>
+        {% endif %}
+        {% if alternatives.has_next %}
+            <li class="page-item"><a href="?page={{ alternatives.next_page_number }}">Suivant</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+  {% endif %}
+{% endif %}
 </section>
 
 {% endblock %}

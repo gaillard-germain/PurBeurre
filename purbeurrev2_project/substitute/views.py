@@ -2,6 +2,9 @@ from django.shortcuts import render, redirect
 from django.http import Http404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+
+import unidecode
 import re
 from collections import Counter
 
@@ -35,6 +38,7 @@ def index(request):
         form = ProductSearchForm(request.POST)
         if form.is_valid():
             query = form.cleaned_data.get('query')
+            query = unidecode.unidecode(query)
             return redirect('substitute:results', query=query)
     else:
         form = ProductSearchForm()
@@ -52,9 +56,18 @@ def results(request, query):
         raise Http404("Aucun produit correspondant")
 
     alternatives = Product.objects.filter(tags__icontains=product.compared_to)
+    paginator = Paginator(alternatives, 9)
+    page = request.GET.get('page')
+    try:
+        alternatives = paginator.page(page)
+    except PageNotAnInteger:
+        alternatives = paginator.page(1)
+    except EmptyPage:
+        alternatives = paginator.page(paginator.num_pages)
     context = {
         'alternatives': alternatives,
-        'product': product
+        'product': product,
+        'paginate': True
     }
     return render(request, 'substitute/results.html', context)
 
