@@ -10,7 +10,7 @@ class SignUpForm(UserCreationForm):
 
 class ProductSearchForm(forms.Form):
     query = forms.CharField(label='Rechercher',
-                            max_length=30,
-                            initial='produit')
+                            max_length=30,)
     query.widget.attrs.update({'class': 'form-control col-6',
-                               'content': 'text/html; charset=UTF-8'})
+                               'content': 'text/html; charset=UTF-8',
+                               'placeholder': 'Produit'})

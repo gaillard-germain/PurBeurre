@@ -4,28 +4,28 @@
 
 <section class="page-section bg-primary text-center pb-2">
   <div class="container pt-5">
-    <img class="img-fluid" src="{{ product.image_url }}" alt=""/>
-    <h2>{{ product.name }}</h2>
-    <h3>{{ product.brands }}</h3>
+    <a class="text-light text-decoration-none" href="{% url 'substitute:detail' product_id=product.id %}">
+      <img class="img-fluid" src="{{ product.image_url }}" alt=""/>
+      <h2>{{ product.name }}</h2>
+      <h3>{{ product.brands }}</h3>
+    </a>
   </div>
 </section>
 
 <section class="page-section bg-secondary py-2">
   <div class="row align-items-end mt-2">
     {% if alternatives|length_is:"0" %}
-        <div class="text-center">
-          Aucun substitut trouvé pour cet aliment !
+        <div class="text-center col-12">
+          <h4>Aucun substitut trouvé pour cet aliment !</h4>
         </div>
 
     {% else %}
       {% for alternative in alternatives %}
       <div class="container col-md-6 col-lg-4 my-2 text-center">
-        <a href="{% url 'substitute:detail' product_id=alternative.id %}">
+        <a class="text-light text-decoration-none" href="{% url 'substitute:detail' product_id=alternative.id %}">
           <img class="img-fluid rounded w-25 mt-1" src="{{ alternative.image_url }}" alt=""/>
-          <h5 class="text-white">{{ alternative.name }}</h5>
-          <p class="text-light">
-            {{ alternative.brands }}
-          </p>
+          <h5>{{ alternative.name }}</h5>
+          <p>{{ alternative.brands }}</p>
         </a>
         <a href="#!" class="btn btn-outline-primary">Sauvegarder</a>
       </div>

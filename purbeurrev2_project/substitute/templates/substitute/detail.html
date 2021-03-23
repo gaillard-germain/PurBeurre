@@ -1,5 +1,5 @@
 {% extends 'substitute/base.html' %}
-
+{% load static %}
 {% block content %}
 
 <section class="page-section bg-primary text-center pb-1">
@@ -26,7 +26,17 @@
       </tr>
       <tr>
         <td class="font-weight-bold">Nutriscore:</td>
-        <td>{{ product.nutriscore|upper }}</td>
+        {% if product.nutriscore == 'a' %}
+          <td><img class="image-fluid w-25" src="{% static 'substitute/assets/img/nutriscore_a.png' %}" alt=""></td>
+        {% elif product.nutriscore == 'b' %}
+          <td><img class="image-fluid w-25" src="{% static 'substitute/assets/img/nutriscore_b.png' %}" alt=""></td>
+        {% elif product.nutriscore == 'c' %}
+          <td><img class="image-fluid w-25" src="{% static 'substitute/assets/img/nutriscore_c.png' %}" alt=""></td>
+        {% elif product.nutriscore == 'd' %}
+          <td><img class="image-fluid w-25" src="{% static 'substitute/assets/img/nutriscore_d.png' %}" alt=""></td>
+        {% elif product.nutriscore == 'e' %}
+          <td><img class="image-fluid w-25" src="{% static 'substitute/assets/img/nutriscore_e.png' %}" alt=""></td>
+        {% endif %}
       </tr>
       <tr>
         <td class="font-weight-bold">Labels:</td>

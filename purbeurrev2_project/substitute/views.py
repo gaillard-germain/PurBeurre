@@ -3,6 +3,7 @@ from django.http import Http404
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from django.db.models import Q
 
 import unidecode
 import re
@@ -25,7 +26,8 @@ def signup(request):
             return redirect('index')
     else:
         form = SignUpForm()
-    return render(request, 'registration/signup.html', {'form': form})
+    context = {'form': form}
+    return render(request, 'registration/signup.html', context)
 
 
 def logout_request(request):
@@ -39,14 +41,17 @@ def index(request):
         if form.is_valid():
             query = form.cleaned_data.get('query')
             query = unidecode.unidecode(query)
+            query = re.split(r'\W+', query)
+            query = "+".join(filter(None,query))
             return redirect('substitute:results', query=query)
     else:
         form = ProductSearchForm()
-    return render(request, 'substitute/index.html', {'form': form})
+    context = {'form': form}
+    return render(request, 'substitute/index.html', context)
 
 
 def results(request, query):
-    words = re.split(r'\W+', query)
+    words = query.split("+")
     products = []
     for word in words:
         products += Product.objects.filter(keywords__icontains=word)
@@ -55,7 +60,11 @@ def results(request, query):
     except ValueError:
         raise Http404("Aucun produit correspondant")
 
-    alternatives = Product.objects.filter(tags__icontains=product.compared_to)
+    query_list = (Q(tags__icontains=product.compared_to)&
+                  (Q(nutriscore__icontains='a')|
+                   Q(nutriscore__icontains='b')|
+                   Q(nutriscore__icontains='c')))
+    alternatives = Product.objects.filter(query_list).exclude(id=product.id)
     paginator = Paginator(alternatives, 9)
     page = request.GET.get('page')
     try:
@@ -65,8 +74,8 @@ def results(request, query):
     except EmptyPage:
         alternatives = paginator.page(paginator.num_pages)
     context = {
-        'alternatives': alternatives,
         'product': product,
+        'alternatives': alternatives,
         'paginate': True
     }
     return render(request, 'substitute/results.html', context)
