@@ -2,9 +2,8 @@
 {% load static %}
 {% block content %}
 
-<section class="page-section bg-primary text-center pb-1">
-  <div class="container pt-5">
-    <img class="img-fluid" src="{{ product.image_url }}" alt=""/>
+<section class="page-section bg-dark text-center pb-1" style="background: linear-gradient(to bottom, rgba(92, 77, 66, 0.5) 0%, rgba(92, 77, 66, 0.5) 100%),center / contain no-repeat url({{ product.image_url }}); height: 50vh;">
+  <div class="container pt-5 text-light">
     <h2>{{ product.name }}</h2>
     <h3>{{ product.brands }}</h3>
   </div>

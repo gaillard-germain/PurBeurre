@@ -17,7 +17,7 @@
     <input class="" type="hidden" name="next" value="{{ next }}" />
   </div>
 </form>
-<p class="mt-2"><a href="{% url 'password_reset' %}">Mot de passe oublié?</a></p>
+<p class="mt-2"><a href="{% url 'substitute:signup' %}">Ou créez un compte</a></p>
 {% if form.errors %}
   <p class="text-warning">Nom d'utilisateur ou mot de passe invalide. Essayez de nouveau.</p>
 {% endif %}

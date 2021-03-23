@@ -8,9 +8,9 @@
     <div class="mb-2">
       {{ field }}
     </div>
-    {% if field.help_text %}
+    <!-- {% if field.help_text %}
       <p class="small text-white">{{ field.help_text }}</p>
-    {% endif %}
+    {% endif %} -->
     {% for error in field.errors %}
       <p class="small text-warning">{{ error }}</p>
     {% endfor %}

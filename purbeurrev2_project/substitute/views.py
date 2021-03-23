@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import Http404
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 from django.contrib import messages
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import Q
@@ -33,6 +34,12 @@ def signup(request):
 def logout_request(request):
     logout(request)
     return render(request, 'registration/logout.html')
+
+
+def my_account(request):
+    context = {}
+    return render(request, 'registration/myaccount.html')
+
 
 
 def index(request):
