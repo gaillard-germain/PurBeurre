@@ -37,7 +37,7 @@ class Dbfeed:
         print('Querying datas...')
         search = 'https://fr.openfoodfacts.org/cgi/search.pl?search_terms=&\
         tagtype_0=states&tag_contains_0=contains&tag_0=checked&\
-        sort_by=unique_scans_n&page_size=30&page=1&json=1'
+        sort_by=unique_scans_n&page_size=200&page=1&json=1'
 
         all = requests.get(search)
         all = all.json()['products']
@@ -60,7 +60,10 @@ class Dbfeed:
                 image_url = cls.format_value(entry, 'image_url'),
                 keywords = cls.format_value(entry, '_keywords'))
 
-            product.save()
+            try:
+                product.save()
+            except:
+                pass
 
 
 def run():

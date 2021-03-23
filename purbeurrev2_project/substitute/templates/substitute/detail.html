@@ -17,11 +17,19 @@
       </tr>
       <tr>
         <td class="font-weight-bold">Additifs:</td>
-        <td>{{ product.additives|upper }}</td>
+        {% if product.additives %}
+          <td>{{ product.additives|upper }}</td>
+        {% else %}
+          <td>Aucun</td>
+        {% endif %}
       </tr>
       <tr>
         <td class="font-weight-bold">Allergènes:</td>
-        <td>{{ product.allergens }}</td>
+        {% if product.allergens %}
+          <td>{{ product.allergens }}</td>
+        {% else %}
+          <td>Aucun</td>
+        {% endif %}
       </tr>
       <tr>
         <td class="font-weight-bold">Nutriscore:</td>
@@ -51,6 +59,9 @@
       </tr>
     </table>
   </div>
+  <form class="text-center">
+    <input class="btn btn-outline-primary" type="button" value="Retour" onclick="history.back()">
+  </form>
 </section>
 
 {% endblock %}
