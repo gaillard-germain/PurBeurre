@@ -47,11 +47,19 @@
       </tr>
       <tr>
         <td class="font-weight-bold">Labels:</td>
-        <td>{{ product.labels }}</td>
+        {% if product.labels %}
+          <td>{{ product.labels }}</td>
+        {% else %}
+          <td>Aucun</td>
+        {% endif %}
       </tr>
       <tr>
         <td class="font-weight-bold">Distribué par:</td>
-        <td>{{ product.stores|title }}</td>
+        {% if product.stores %}
+          <td>{{ product.stores|title }}</td>
+        {% else %}
+          <td>Non renseigné</td>
+        {% endif %}
       </tr>
       <tr>
         <td class="font-weight-bold">OpenFoodFacts:</td>

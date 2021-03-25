@@ -14,7 +14,7 @@
   <div class="row align-items-end mt-2">
     {% if favorites|length_is:"0" %}
         <div class="text-center col-12">
-          <h4 class="my-4">Aucun aliments favoris</h4>
+          <h4 class="my-4">Aucun aliment favori</h4>
         </div>
     {% else %}
       <div class="text-center col-12">
@@ -24,11 +24,11 @@
       <div class="container col-md-6 col-lg-4 my-2 text-center">
         <a class="text-light text-decoration-none" href="{% url 'substitute:detail' product_id=favorite.id %}">
           <img class="img-fluid rounded w-25 mt-1" src="{{ favorite.image_url }}" alt=""/>
-          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-info">{{ favorite.nutriscore|upper }}</span>
+          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning">{{ favorite.nutriscore|upper }}</span>
           <h5>{{ favorite.name }}</h5>
           <p>{{ favorite.brands }}</p>
         </a>
-        <button class="remove-button btn btn-outline-info" value="{{ favorite.id }}"><i class="fas fa-star fa-lg"></i> Enlever des favoris</button>
+        <button class="remove-button btn btn-outline-info" value="{{ favorite.id }}"><i class="fas fa-star fa-lg" style="color: #f4ba1a;"></i> Enlever des favoris</button>
       </div>
       {% if forloop.counter|divisibleby:3 %}<div class="clearfix"></div>{% endif %}
       {% endfor %}

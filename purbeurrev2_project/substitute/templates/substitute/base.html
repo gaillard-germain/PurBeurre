@@ -41,11 +41,11 @@
                         {% if user.is_authenticated %}
                           <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{% url 'substitute:myaccount' %}" data-toggle="tooltip" title="Mon compte"><i class="far fa-user fa-2x"></i></a></li>
                           <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{% url 'substitute:favorites' %}" data-toggle="tooltip" title="Mes aliments"><i class="fas fa-carrot fa-2x"></i></a></li>
-                          <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{% url 'substitute:logout' %}"  data-toggle="tooltip" title="Déconnexion"><i class="fas fa-sign-out-alt fa-2x"></i></a></li>
+                          <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{% url 'substitute:logout' %}" data-toggle="tooltip" title="Déconnexion"><i class="fas fa-sign-out-alt fa-2x"></i></a></li>
                           <li class="navbar-text text-muted py-0 my-0">{{ user.username }}</li>
                         {% else %}
-                          <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/accounts/login"  data-toggle="tooltip" title="Se connecter"><i class="fas fa-sign-in-alt fa-2x"></i></a></li>
-                          <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{% url 'substitute:signup' %}"  data-toggle="tooltip" title="Créer un compte"><i class="fas fa-user-plus fa-2x"></i></a></li>
+                          <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/accounts/login" data-toggle="tooltip" title="Se connecter"><i class="fas fa-sign-in-alt fa-2x"></i></a></li>
+                          <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{% url 'substitute:signup' %}" data-toggle="tooltip" title="Créer un compte"><i class="fas fa-user-plus fa-2x"></i></a></li>
                         {% endif %}
                     </ul>
                 </div>

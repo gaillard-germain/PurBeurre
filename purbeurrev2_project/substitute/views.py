@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
 from django.http import Http404, HttpResponse, JsonResponse
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 from django.contrib import messages
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import Q
+
 
 import unidecode
 import re
@@ -21,6 +22,8 @@ def signup(request):
             user = form.save()
             user.refresh_from_db()
             user.save()
+            group, created = Group.objects.get_or_create(name='pb_members')
+            user.groups.add(group)
             Profile.objects.create(user=user)
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=user.username, password=raw_password)
