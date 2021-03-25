@@ -1,0 +1,51 @@
+{% extends 'substitute/base.html' %}
+
+{% block content %}
+
+<section class="page-section bg-dark text-center pb-5">
+  <div class="container pt-5">
+    <h2>Mes aliments</h2>
+    <h3>{{ user.username }}</h3>
+  </div>
+</section>
+
+<section class="page-section bg-secondary py-2">
+  <div class="row align-items-end mt-2">
+    {% if favorites|length_is:"0" %}
+        <div class="text-center col-12">
+          <h4>Aucun aliments favoris</h4>
+        </div>
+    {% else %}
+      <div class="text-center col-12">
+          <h4>Vos aliments favoris</h4>
+      </div>
+      {% for favorite in favorites %}
+      <div class="container col-md-6 col-lg-4 my-2 text-center">
+        <a class="text-light text-decoration-none" href="{% url 'substitute:detail' product_id=favorite.id %}">
+          <img class="img-fluid rounded w-25 mt-1" src="{{ favorite.image_url }}" alt=""/>
+          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-info">{{ favorite.nutriscore|upper }}</span>
+          <h5>{{ favorite.name }}</h5>
+          <p>{{ favorite.brands }}</p>
+        </a>
+        <button class="btn btn-outline-primary" value="">Supprimer</button>
+      </div>
+      {% if forloop.counter|divisibleby:3 %}<div class="clearfix"></div>{% endif %}
+      {% endfor %}
+    </div>
+  {% if paginate %}
+    <div class="clearfix"></div>
+    <nav aria-label="...">
+      <ul class="pagination justify-content-center">
+        {% if favorites.has_previous %}
+            <li class="page-item"><a href="?page={{ favorites.previous_page_number }}">Précédent</a></li>
+        {% endif %}
+        {% if favorites.has_next %}
+            <li class="page-item"><a href="?page={{ favorites.next_page_number }}">Suivant</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+  {% endif %}
+{% endif %}
+</section>
+
+{% endblock %}

@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.http import Http404
+from django.http import Http404, HttpResponse, JsonResponse
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.contrib import messages
@@ -11,7 +11,7 @@ import re
 from collections import Counter
 
 from .forms import SignUpForm, ProductSearchForm
-from .models import Product
+from .models import Product, Profile
 
 
 def signup(request):
@@ -21,6 +21,7 @@ def signup(request):
             user = form.save()
             user.refresh_from_db()
             user.save()
+            Profile.objects.create(user=user)
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=user.username, password=raw_password)
             login(request, user)
@@ -37,9 +38,7 @@ def logout_request(request):
 
 
 def my_account(request):
-    context = {}
     return render(request, 'registration/myaccount.html')
-
 
 
 def index(request):
@@ -92,3 +91,40 @@ def detail(request, product_id):
     product = Product.objects.get(id=product_id)
     context = {'product': product}
     return render(request, 'substitute/detail.html', context)
+
+
+def addfav(request):
+    response = {"message": "", "allowed": False}
+    if request.method == 'POST' and request.is_ajax():
+        product_id = request.POST.get('product_id')
+        product = Product.objects.get(id=product_id)
+        if request.user.is_authenticated:
+            profile = Profile.objects.get(user=request.user)
+            profile.favorite.add(product)
+            response['message'] = "{} a été ajouté a vos favoris".format(product.name)
+            response['allowed'] = True
+        else:
+            response['message'] = "Connectez-vous pour ajouter un produit en favoris"
+            response['allowed'] = False
+    return JsonResponse(response)
+
+
+def favorites(request):
+    if request.user.is_authenticated:
+        profile = Profile.objects.get(user=request.user)
+        favorites = Product.objects.filter(profiles=profile)
+        paginator = Paginator(favorites, 9)
+        page = request.GET.get('page')
+        try:
+            favorites = paginator.page(page)
+        except PageNotAnInteger:
+            favorites = paginator.page(1)
+        except EmptyPage:
+            favorites = paginator.page(paginator.num_pages)
+        context = {
+        'favorites': favorites,
+        'paginate': True
+        }
+        return render(request, 'substitute/favorites.html', context)
+    else:
+        return redirect('accounts/login')

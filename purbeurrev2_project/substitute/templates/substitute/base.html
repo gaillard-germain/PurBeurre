@@ -38,9 +38,9 @@
                         </li>
                         {% if user.is_authenticated %}
                           <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{% url 'substitute:myaccount' %}">Mon compte</a></li>
-                          <li class="nav-item"><a class="nav-link js-scroll-trigger" href="#">Mes aliments</a></li>
+                          <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{% url 'substitute:favorites' %}">Mes aliments</a></li>
                           <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{% url 'substitute:logout' %}">Déconnexion</a></li>
-                          <li class="navbar-text text-muted py-0 my-0">Compte: {{ user.username }}</li>
+                          <li class="navbar-text text-muted py-0 my-0">{{ user.username }}</li>
                         {% else %}
                           <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/accounts/login">Se connecter</a></li>
                           <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{% url 'substitute:signup' %}">Créer un compte</a></li>
@@ -60,12 +60,15 @@
             </div>
         </footer>
         <!-- Bootstrap core JS-->
-        <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+        <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"></script>
         <!-- Third party plugin JS-->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-easing/1.4.1/jquery.easing.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/magnific-popup.js/1.1.0/jquery.magnific-popup.min.js"></script>
         <!-- Core theme JS-->
         <script src="{% static 'substitute/js/scripts.js' %}"></script>
+        {% block javascript %}
+          <script src="{% static 'substitute/js/custom_scripts.js' %}"></script>
+        {% endblock javascript %}
     </body>
 </html>

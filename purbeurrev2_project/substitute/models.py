@@ -26,4 +26,4 @@ class Profile(models.Model):
     favorite = models.ManyToManyField(Product, related_name='profiles', blank=True)
 
     def __str__(self):
-        return self.user.name
+        return self.user.username
