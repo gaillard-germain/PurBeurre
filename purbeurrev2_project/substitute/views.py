@@ -79,9 +79,15 @@ def results(request, query):
         alternatives = paginator.page(1)
     except EmptyPage:
         alternatives = paginator.page(paginator.num_pages)
+    if request.user.is_authenticated:
+        profile = Profile.objects.get(user=request.user)
+        favorites = Product.objects.filter(profiles=profile)
+    else:
+        favorites = []
     context = {
         'product': product,
         'alternatives': alternatives,
+        'favorites': favorites,
         'paginate': True
     }
     return render(request, 'substitute/results.html', context)
@@ -101,10 +107,24 @@ def addfav(request):
         if request.user.is_authenticated:
             profile = Profile.objects.get(user=request.user)
             profile.favorite.add(product)
-            response['message'] = "{} a été ajouté a vos favoris".format(product.name)
             response['allowed'] = True
         else:
             response['message'] = "Connectez-vous pour ajouter un produit en favoris"
+            response['allowed'] = False
+    return JsonResponse(response)
+
+
+def removefav(request):
+    response = {"message": "", "allowed": False}
+    if request.method == 'POST' and request.is_ajax():
+        product_id = request.POST.get('product_id')
+        product = Product.objects.get(id=product_id)
+        if request.user.is_authenticated:
+            profile = Profile.objects.get(user=request.user)
+            profile.favorite.remove(product)
+            response['allowed'] = True
+        else:
+            response['message'] = "Connectez-vous pour enlever un produit des favoris"
             response['allowed'] = False
     return JsonResponse(response)
 

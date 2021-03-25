@@ -29,7 +29,11 @@
           <h5>{{ alternative.name }}</h5>
           <p>{{ alternative.brands }}</p>
         </a>
-        <button class="save-button btn btn-outline-primary" value="{{ alternative.id }}">Sauvegarder</button>
+        {% if alternative in favorites %}
+          <button class="remove-button btn btn-outline-primary" value="{{ alternative.id }}">Enlever des favoris</button>
+        {% else %}
+          <button class="save-button btn btn-outline-info" value="{{ alternative.id }}">Ajouter aux favoris</button>
+        {% endif %}
       </div>
       {% if forloop.counter|divisibleby:3 %}<div class="clearfix"></div>{% endif %}
       {% endfor %}

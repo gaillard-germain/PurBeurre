@@ -13,4 +13,5 @@ urlpatterns = [
     re_path(r'^detail/(?P<product_id>\d+)/$', views.detail, name='detail'),
     re_path(r'^addfav/', views.addfav, name='addfav'),
     re_path(r'^favorites/', views.favorites, name='favorites'),
+    re_path(r'^removefav/', views.removefav, name='removefav'),
 ]

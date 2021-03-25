@@ -27,7 +27,7 @@
           <h5>{{ favorite.name }}</h5>
           <p>{{ favorite.brands }}</p>
         </a>
-        <button class="btn btn-outline-primary" value="">Supprimer</button>
+        <button class="remove-button btn btn-outline-primary" value="{{ favorite.id }}">Enlever des favoris</button>
       </div>
       {% if forloop.counter|divisibleby:3 %}<div class="clearfix"></div>{% endif %}
       {% endfor %}
