@@ -15,11 +15,11 @@
   <div class="row align-items-end mt-2">
     {% if alternatives|length_is:"0" %}
         <div class="text-center col-12">
-          <h4>Aucun substitut trouvé pour cet aliment !</h4>
+          <h4 class="my-4">Aucun substitut trouvé pour cet aliment !</h4>
         </div>
     {% else %}
       <div class="text-center col-12">
-          <h4>Vous pourriez remplacer cette aliment par:</h4>
+          <h4 class="my-4">Vous pourriez remplacer cette aliment par:</h4>
       </div>
       {% for alternative in alternatives %}
       <div class="container col-md-6 col-lg-4 my-2 text-center">
@@ -30,9 +30,9 @@
           <p>{{ alternative.brands }}</p>
         </a>
         {% if alternative in favorites %}
-          <button class="remove-button btn btn-outline-primary" value="{{ alternative.id }}">Enlever des favoris</button>
+          <button class="remove-button btn btn-outline-primary" value="{{ alternative.id }}"><i class="fas fa-star fa-lg"></i> Enlever des favoris</button>
         {% else %}
-          <button class="save-button btn btn-outline-info" value="{{ alternative.id }}">Ajouter aux favoris</button>
+          <button class="save-button btn btn-outline-info" value="{{ alternative.id }}"><i class="far fa-star fa-lg"></i> Ajouter aux favoris</button>
         {% endif %}
       </div>
       {% if forloop.counter|divisibleby:3 %}<div class="clearfix"></div>{% endif %}
@@ -43,10 +43,10 @@
     <nav aria-label="...">
       <ul class="pagination justify-content-center">
         {% if alternatives.has_previous %}
-            <li class="page-item"><a href="?page={{ alternatives.previous_page_number }}">Précédent</a></li>
+            <li class="page-item mt-5"><a href="?page={{ alternatives.previous_page_number }}"><i class="fas fa-arrow-left fa-lg"></i> Page précédente</a></li>
         {% endif %}
         {% if alternatives.has_next %}
-            <li class="page-item"><a href="?page={{ alternatives.next_page_number }}">Suivant</a></li>
+            <li class="page-item mt-5"><a href="?page={{ alternatives.next_page_number }}">Page suivante <i class="fas fa-arrow-right fa-lg"></i></a></li>
         {% endif %}
       </ul>
     </nav>

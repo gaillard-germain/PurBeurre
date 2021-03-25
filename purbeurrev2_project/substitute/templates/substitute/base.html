@@ -10,8 +10,10 @@
         <!-- Favicon-->
         <link rel="icon" type="image/x-icon" href="{% static 'substitute/assets/img/favicon.png' %}" />
         <!-- Font Awesome icons (free version)-->
-        <script src="https://use.fontawesome.com/releases/v5.15.1/js/all.js" crossorigin="anonymous"></script>
+        <script src="https://kit.fontawesome.com/575962c641.js" crossorigin="anonymous"></script>
         <!-- Google fonts-->
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Lexend&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Merriweather+Sans:400,700" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/css?family=Merriweather:400,300,300italic,400italic,700,700italic" rel="stylesheet" type="text/css" />
         <!-- Third party plugin CSS-->
@@ -23,9 +25,9 @@
         <!-- Navigation-->
         <nav class="navbar navbar-expand-lg navbar-light fixed-top py-3" id="mainNav">
             <div class="container">
-                <a class="navbar-brand js-scroll-trigger" href="/">
+                <a class="navbar-brand js-scroll-trigger" href="/"  data-toggle="tooltip" title="Acceuil">
                   <img class="img-fluid align-middle mr-2" src="{% static 'substitute/assets/img/logo.png' %}" alt="logo" width="40"/>
-                   Pur Beurre
+                  Pur Beurre
                 </a>
                 <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
                 <div class="collapse navbar-collapse" id="navbarResponsive">
@@ -37,13 +39,13 @@
                           </form>
                         </li>
                         {% if user.is_authenticated %}
-                          <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{% url 'substitute:myaccount' %}">Mon compte</a></li>
-                          <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{% url 'substitute:favorites' %}">Mes aliments</a></li>
-                          <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{% url 'substitute:logout' %}">Déconnexion</a></li>
+                          <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{% url 'substitute:myaccount' %}" data-toggle="tooltip" title="Mon compte"><i class="far fa-user fa-2x"></i></a></li>
+                          <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{% url 'substitute:favorites' %}" data-toggle="tooltip" title="Mes aliments"><i class="fas fa-carrot fa-2x"></i></a></li>
+                          <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{% url 'substitute:logout' %}"  data-toggle="tooltip" title="Déconnexion"><i class="fas fa-sign-out-alt fa-2x"></i></a></li>
                           <li class="navbar-text text-muted py-0 my-0">{{ user.username }}</li>
                         {% else %}
-                          <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/accounts/login">Se connecter</a></li>
-                          <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{% url 'substitute:signup' %}">Créer un compte</a></li>
+                          <li class="nav-item"><a class="nav-link js-scroll-trigger" href="/accounts/login"  data-toggle="tooltip" title="Se connecter"><i class="fas fa-sign-in-alt fa-2x"></i></a></li>
+                          <li class="nav-item"><a class="nav-link js-scroll-trigger" href="{% url 'substitute:signup' %}"  data-toggle="tooltip" title="Créer un compte"><i class="fas fa-user-plus fa-2x"></i></a></li>
                         {% endif %}
                     </ul>
                 </div>
