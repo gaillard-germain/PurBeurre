@@ -25,12 +25,12 @@
       <div class="container col-md-6 col-lg-4 my-2 text-center">
         <a class="text-light text-decoration-none" href="{% url 'substitute:detail' product_id=alternative.id %}">
           <img class="img-fluid rounded w-25 mt-1" src="{{ alternative.image_url }}" alt=""/>
-          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-info">{{ alternative.nutriscore|upper }}</span>
+          <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning">{{ alternative.nutriscore|upper }}</span>
           <h5>{{ alternative.name }}</h5>
           <p>{{ alternative.brands }}</p>
         </a>
         {% if alternative in favorites %}
-          <button class="remove-button btn btn-outline-primary" value="{{ alternative.id }}"><i class="fas fa-star fa-lg"></i> Enlever des favoris</button>
+          <button class="remove-button btn btn-outline-info" value="{{ alternative.id }}"><i class="fas fa-star fa-lg"></i> Enlever des favoris</button>
         {% else %}
           <button class="save-button btn btn-outline-info" value="{{ alternative.id }}"><i class="far fa-star fa-lg"></i> Ajouter aux favoris</button>
         {% endif %}
@@ -43,10 +43,10 @@
     <nav aria-label="...">
       <ul class="pagination justify-content-center">
         {% if alternatives.has_previous %}
-            <li class="page-item mt-5"><a href="?page={{ alternatives.previous_page_number }}"><i class="fas fa-arrow-left fa-lg"></i> Page précédente</a></li>
+            <li class="page-item my-5 mx-2"><a href="?page={{ alternatives.previous_page_number }}"><i class="fas fa-arrow-left fa-lg"></i> Page précédente</a></li>
         {% endif %}
         {% if alternatives.has_next %}
-            <li class="page-item mt-5"><a href="?page={{ alternatives.next_page_number }}">Page suivante <i class="fas fa-arrow-right fa-lg"></i></a></li>
+            <li class="page-item my-5 mx-2"><a href="?page={{ alternatives.next_page_number }}">Page suivante <i class="fas fa-arrow-right fa-lg"></i></a></li>
         {% endif %}
       </ul>
     </nav>

@@ -28,7 +28,7 @@
           <h5>{{ favorite.name }}</h5>
           <p>{{ favorite.brands }}</p>
         </a>
-        <button class="remove-button btn btn-outline-primary" value="{{ favorite.id }}"><i class="fas fa-star fa-lg"></i> Enlever des favoris</button>
+        <button class="remove-button btn btn-outline-info" value="{{ favorite.id }}"><i class="fas fa-star fa-lg"></i> Enlever des favoris</button>
       </div>
       {% if forloop.counter|divisibleby:3 %}<div class="clearfix"></div>{% endif %}
       {% endfor %}
@@ -38,10 +38,10 @@
     <nav aria-label="...">
       <ul class="pagination justify-content-center">
         {% if favorites.has_previous %}
-            <li class="page-item mt-5"><a href="?page={{ favorites.previous_page_number }}"><i class="fas fa-arrow-left fa-lg"></i> Page précédente</a></li>
+            <li class="page-item mt-5 mx-2"><a href="?page={{ favorites.previous_page_number }}"><i class="fas fa-arrow-left fa-lg"></i> Page précédente</a></li>
         {% endif %}
         {% if favorites.has_next %}
-            <li class="page-item mt-5"><a href="?page={{ favorites.next_page_number }}">Page suivante <i class="fas fa-arrow-right fa-lg"></i></a></li>
+            <li class="page-item mt-5 mx-2"><a href="?page={{ favorites.next_page_number }}">Page suivante <i class="fas fa-arrow-right fa-lg"></i></a></li>
         {% endif %}
       </ul>
     </nav>

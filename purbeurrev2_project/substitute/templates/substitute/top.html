@@ -16,6 +16,8 @@
             <p class="mt-2"><a href="{% url 'login' %}">Vous reconnecter ?</a></p>
           {% elif myform == 'search' %}
             {% include 'substitute/searchform.html' %}
+          {% elif myform == 'error' %}
+            <p class="mt-2"><a href="{% url 'substitute:index' %}">Retourner a l'acceuil</a></p>
           {% endif %}
         </div>
       </div>

@@ -109,7 +109,8 @@ def addfav(request):
             profile.favorite.add(product)
             response['allowed'] = True
         else:
-            response['message'] = "Connectez-vous pour ajouter un produit en favoris"
+            message = "Connectez-vous pour ajouter un produit en favoris"
+            response['message'] = message
             response['allowed'] = False
     return JsonResponse(response)
 
@@ -124,7 +125,8 @@ def removefav(request):
             profile.favorite.remove(product)
             response['allowed'] = True
         else:
-            response['message'] = "Connectez-vous pour enlever un produit des favoris"
+            message = "Connectez-vous pour enlever un produit des favoris"
+            response['message'] = message
             response['allowed'] = False
     return JsonResponse(response)
 
