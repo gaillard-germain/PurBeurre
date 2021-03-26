@@ -104,7 +104,7 @@ def detail(request, product_id):
 
 def togglefav(request):
     response = {"message": "Action non autorisée", "allowed": False}
-    if request.method == 'POST' and request.is_ajax():
+    if request.method == 'POST':#and request.is_ajax():
         product_id = request.POST.get('product_id')
         toggle = request.POST.get('toggle')
         product = Product.objects.get(id=product_id)
