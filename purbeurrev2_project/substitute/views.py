@@ -102,34 +102,22 @@ def detail(request, product_id):
     return render(request, 'substitute/detail.html', context)
 
 
-def addfav(request):
-    response = {"message": "", "allowed": False}
+def togglefav(request):
+    response = {"message": "Action non autorisée", "allowed": False}
     if request.method == 'POST' and request.is_ajax():
         product_id = request.POST.get('product_id')
+        toggle = request.POST.get('toggle')
         product = Product.objects.get(id=product_id)
         if request.user.is_authenticated:
             profile = Profile.objects.get(user=request.user)
-            profile.favorite.add(product)
+            response['message'] = 'OK'
             response['allowed'] = True
+            if toggle == 'on':
+                profile.favorite.add(product)
+            else:
+                profile.favorite.remove(product)
         else:
-            message = "Connectez-vous pour ajouter un produit en favoris"
-            response['message'] = message
-            response['allowed'] = False
-    return JsonResponse(response)
-
-
-def removefav(request):
-    response = {"message": "", "allowed": False}
-    if request.method == 'POST' and request.is_ajax():
-        product_id = request.POST.get('product_id')
-        product = Product.objects.get(id=product_id)
-        if request.user.is_authenticated:
-            profile = Profile.objects.get(user=request.user)
-            profile.favorite.remove(product)
-            response['allowed'] = True
-        else:
-            message = "Connectez-vous pour enlever un produit des favoris"
-            response['message'] = message
+            response['message'] = "Veuillez vous connecter SVP."
             response['allowed'] = False
     return JsonResponse(response)
 
