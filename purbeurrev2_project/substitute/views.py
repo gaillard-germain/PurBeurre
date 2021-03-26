@@ -103,22 +103,18 @@ def detail(request, product_id):
 
 
 def togglefav(request):
-    response = {"message": "Action non autorisée", "allowed": False}
+    response = {'allowed': False}
     if request.method == 'POST':#and request.is_ajax():
         product_id = request.POST.get('product_id')
         toggle = request.POST.get('toggle')
         product = Product.objects.get(id=product_id)
         if request.user.is_authenticated:
             profile = Profile.objects.get(user=request.user)
-            response['message'] = 'OK'
             response['allowed'] = True
             if toggle == 'on':
                 profile.favorite.add(product)
             else:
                 profile.favorite.remove(product)
-        else:
-            response['message'] = "Veuillez vous connecter SVP."
-            response['allowed'] = False
     return JsonResponse(response)
 
 

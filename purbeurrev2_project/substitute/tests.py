@@ -2,9 +2,9 @@ from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth.models import User
 from .models import Product, Profile
-
 from django.http import JsonResponse
-from django.core import serializers
+
+
 
 class IndexPageTestCase(TestCase):
 
@@ -110,7 +110,7 @@ class ToggleFavTestCase(TestCase):
             'product_id': product_id,
             'toggle': toggle
         })
-        result = JsonResponse({"message": "OK", "allowed": True})
+        result = JsonResponse({"allowed": True})
         self.assertEqual(response.content, result.content)
 
     def test_togglefav_response_loggedout(self):
@@ -120,6 +120,34 @@ class ToggleFavTestCase(TestCase):
             'product_id': product_id,
             'toggle': toggle
         })
-        result = JsonResponse({"message": "Veuillez vous connecter SVP.",
-                               "allowed": False})
+        result = JsonResponse({"allowed": False})
         self.assertEqual(response.content, result.content)
+
+    def test_fav_is_registered(self):
+        login = self.client.login(username=self.username,
+                                  password=self.password)
+        profile = self.profile
+        product_id = self.product.id
+        toggle = 'on'
+        old_fav = profile.favorite.count()
+        response = self.client.post(reverse('substitute:togglefav'), {
+            'product_id': product_id,
+            'toggle': toggle
+        })
+        new_fav = profile.favorite.count()
+        self.assertEqual(new_fav, old_fav+1)
+
+    def test_fav_is_removed(self):
+        login = self.client.login(username=self.username,
+                                  password=self.password)
+        profile = self.profile
+        profile.favorite.add(self.product)
+        product_id = self.product.id
+        toggle = 'off'
+        old_fav = profile.favorite.count()
+        response = self.client.post(reverse('substitute:togglefav'), {
+            'product_id': product_id,
+            'toggle': toggle
+        })
+        new_fav = profile.favorite.count()
+        self.assertEqual(new_fav, old_fav-1)

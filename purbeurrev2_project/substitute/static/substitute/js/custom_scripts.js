@@ -14,11 +14,10 @@ $.fn.toggleFav = function(toggle, id) {
     type: 'POST'
   })
   .done(function(response) {
-    if (response.message != 'OK') {
-      alert(response.message);
-    }
     if (response.allowed) {
       location.reload();
+    }else {
+      alert("Veuillez vous connecter SVP");
     }
   });
 }
