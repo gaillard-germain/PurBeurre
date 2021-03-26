@@ -74,7 +74,7 @@ def results(request, query):
                    Q(nutriscore__icontains='b')|
                    Q(nutriscore__icontains='c')))
     alternatives = Product.objects.filter(query_list).exclude(id=product.id)
-    paginator = Paginator(alternatives, 9)
+    paginator = Paginator(alternatives.order_by('nutriscore'), 9)
     page = request.GET.get('page')
     try:
         alternatives = paginator.page(page)
@@ -138,7 +138,7 @@ def favorites(request):
     if request.user.is_authenticated:
         profile = Profile.objects.get(user=request.user)
         favorites = Product.objects.filter(profiles=profile)
-        paginator = Paginator(favorites, 9)
+        paginator = Paginator(favorites.order_by('nutriscore'), 9)
         page = request.GET.get('page')
         try:
             favorites = paginator.page(page)
