@@ -11,7 +11,7 @@
 </section>
 
 <section class="page-section bg-secondary py-2">
-  <div class="row align-items-end mt-2">
+  <div class="row align-items-end mt-2 mx-0">
     {% if favorites|length_is:"0" %}
         <div class="text-center col-12">
           <h4 class="my-4">Aucun aliment favori</h4>
@@ -28,7 +28,7 @@
           <h5>{{ favorite.name }}</h5>
           <p>{{ favorite.brands }}</p>
         </a>
-        <button class="remove-button btn btn-outline-info" value="{{ favorite.id }}"><i class="fas fa-star fa-lg" style="color: #f4ba1a;"></i> Enlever des favoris</button>
+        <button class="remove-button btn btn-outline-info" value="{{ favorite.id }}"><i class="fas fa-star fa-lg" style="color: #ffc107;"></i> Enlever des favoris</button>
       </div>
       {% if forloop.counter|divisibleby:3 %}<div class="clearfix"></div>{% endif %}
       {% endfor %}

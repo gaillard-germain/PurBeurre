@@ -1,0 +1,16 @@
+.bg-primary {
+  background-color: #c45525 !important;
+}
+
+.bg-secondary {
+  background-color: #e8a75d !important;
+}
+
+.bg-dark {
+  background-color: #345a61 !important;
+}
+
+.btn-primary {
+  background-color: #c45525;
+  border-color: #c45525;
+}
