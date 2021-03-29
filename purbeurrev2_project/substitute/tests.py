@@ -5,6 +5,37 @@ from .models import Product, Profile
 from django.http import JsonResponse
 
 
+class SignUpPageTestCase(TestCase):
+
+    def test_signup_page_returns_200(self):
+        response = self.client.get(reverse('substitute:signup'))
+        self.assertEqual(response.status_code, 200)
+
+    def test_signup_add_new_profile(self):
+        old_profile = Profile.objects.count()
+        response = self.client.post(reverse('substitute:signup'), {
+            'username': 'fake-user',
+            'email': 'fake@fake.com',
+            'password1': 'Fake1234',
+            'password2': 'Fake1234'
+        })
+        new_profile = Profile.objects.count()
+        self.assertEqual(new_profile, old_profile+1)
+
+
+class LogoutPageTestCase(TestCase):
+
+    def test_logout_page_returns_200(self):
+        response = self.client.get(reverse('substitute:logout'))
+        self.assertEqual(response.status_code, 200)
+
+
+class MyAccountPageTestCase(TestCase):
+
+    def test_myaccount_page_returns_200(self):
+        response = self.client.get(reverse('substitute:myaccount'))
+        self.assertEqual(response.status_code, 200)
+
 
 class IndexPageTestCase(TestCase):
 

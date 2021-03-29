@@ -104,7 +104,7 @@ def detail(request, product_id):
 
 def togglefav(request):
     response = {'allowed': False}
-    if request.method == 'POST':#and request.is_ajax():
+    if request.method == 'POST':
         product_id = request.POST.get('product_id')
         toggle = request.POST.get('toggle')
         product = Product.objects.get(id=product_id)
@@ -137,3 +137,7 @@ def favorites(request):
         return render(request, 'substitute/favorites.html', context)
     else:
         return redirect('accounts/login')
+
+
+def legal_notice(request):
+    return render(request, 'substitute/legalnotice.html')
