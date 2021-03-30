@@ -10,6 +10,7 @@ from django.db.models import Q
 import unidecode
 import re
 from collections import Counter
+from string import ascii_lowercase
 
 from .forms import SignUpForm, ProductSearchForm
 from .models import Product, Profile
@@ -69,11 +70,12 @@ def results(request, query):
     except ValueError:
         raise Http404("Aucun produit correspondant")
 
-    query_list = (Q(tags__icontains=product.compared_to)&
-                  (Q(nutriscore__icontains='a')|
-                   Q(nutriscore__icontains='b')|
-                   Q(nutriscore__icontains='c')))
-    alternatives = Product.objects.filter(query_list).exclude(id=product.id)
+    alternatives = Product.objects.filter(tags__icontains=product.compared_to)
+    alternatives = alternatives.exclude(id=product.id)
+    nutriscores = ascii_lowercase[:ascii_lowercase.index('e')+1]
+    for letter in nutriscores[nutriscores.index(product.nutriscore)+1:]:
+        alternatives = alternatives.exclude(nutriscore=letter)
+
     paginator = Paginator(alternatives.order_by('nutriscore'), 9)
     page = request.GET.get('page')
     try:

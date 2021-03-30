@@ -11,7 +11,10 @@ class FavoriteProfilesInLine(admin.TabularInline):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_filter = ['brands']
+    list_display = ['name', 'compared_to', 'tags']
+    search_fields = ['name']
+    list_filter = ['compared_to']
+    list_per_page=10
 
 
 @admin.register(Profile)

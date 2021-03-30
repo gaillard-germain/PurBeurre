@@ -1,11 +1,12 @@
 import requests
 
 from substitute.models import Product
+# from psycopg2.errors import StringDataRightTruncation, NotNullViolation
 
 
 class Dbfeed:
     @staticmethod
-    def format_value(dict, key):
+    def check_value(dict, key):
         """ Checks if the field exist in the json from openfoodfacts API
             and return a formated value"""
 
@@ -15,6 +16,12 @@ class Dbfeed:
             value = dict[key]
             if not value:
                 value = None
+
+            elif key == 'categories_hierarchy':
+                try:
+                    value = value[2]
+                except IndexError:
+                    value = value[0]
 
             elif isinstance(value, list):
                 value = ', '.join(value)
@@ -31,40 +38,43 @@ class Dbfeed:
         return value
 
     @classmethod
-    def feed(cls):
-        """ Returns datas from openfoodfacts API """
+    def feed(cls, page_size, page_nbr):
+        """ Added datas from openfoodfacts API to Product"""
 
-        print('Querying datas...')
-        search = 'https://fr.openfoodfacts.org/cgi/search.pl?search_terms=&\
-        tagtype_0=states&tag_contains_0=contains&tag_0=checked&\
-        sort_by=unique_scans_n&page_size=200&page=1&json=1'
-
-        all = requests.get(search)
-        all = all.json()['products']
-
+        print('Deleting the former products')
         Product.objects.all().delete()
+        print('Querying datas...')
+        for i in range(page_nbr):
+            search = 'https://fr.openfoodfacts.org/cgi/search.pl?\
+search_terms=&tagtype_0=purchase_places&tag_contains_0=contains&tag_0=france&\
+tagtype_1=states&tag_contains_1=contains&tag_1=complete&\
+sort_by=unique_scans_n&page_size={}&page={}&json=1'.format(page_size, i+1)
 
-        for entry in all:
-            product = Product(
-                name = cls.format_value(entry, 'product_name'),
-                brands = cls.format_value(entry, 'brands'),
-                tags = cls.format_value(entry, 'categories_tags'),
-                ingredients = cls.format_value(entry, 'ingredients_text_fr'),
-                additives = cls.format_value(entry, 'additives_tags'),
-                allergens = cls.format_value(entry, 'allergens_tags'),
-                nutriscore = cls.format_value(entry, 'nutriscore_grade'),
-                labels = cls.format_value(entry, 'labels'),
-                stores = cls.format_value(entry, 'stores_tags'),
-                link = cls.format_value(entry, 'url'),
-                compared_to = cls.format_value(entry, 'compared_to_category'),
-                image_url = cls.format_value(entry, 'image_url'),
-                keywords = cls.format_value(entry, '_keywords'))
+            all = requests.get(search)
+            all = all.json()['products']
 
-            try:
-                product.save()
-            except:
-                pass
+            for entry in all:
+                product = Product(
+                    name=cls.check_value(entry, 'product_name'),
+                    brands=cls.check_value(entry, 'brands'),
+                    tags=cls.check_value(entry, 'categories_tags'),
+                    ingredients=cls.check_value(entry, 'ingredients_text_fr'),
+                    additives=cls.check_value(entry, 'additives_tags'),
+                    allergens=cls.check_value(entry, 'allergens_tags'),
+                    nutriscore=cls.check_value(entry, 'nutriscore_grade'),
+                    labels=cls.check_value(entry, 'labels'),
+                    stores=cls.check_value(entry, 'stores_tags'),
+                    link=cls.check_value(entry, 'url'),
+                    compared_to=cls.check_value(entry, 'categories_hierarchy'),
+                    image_url=cls.check_value(entry, 'image_url'),
+                    keywords=cls.check_value(entry, '_keywords'))
+
+                try:
+                    product.save()
+                except Exception as error:
+                    print(error)
+                    pass
 
 
 def run():
-    Dbfeed.feed()
+    Dbfeed.feed(500, 4)

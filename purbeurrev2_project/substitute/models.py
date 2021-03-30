@@ -10,7 +10,7 @@ class Product(models.Model):
     additives = models.CharField(max_length=300, null=True, blank=True)
     allergens = models.CharField(max_length=300, null=True, blank=True)
     nutriscore = models.CharField(max_length=1)
-    labels = models.CharField(max_length=300, null=True, blank=True)
+    labels = models.CharField(max_length=400, null=True, blank=True)
     stores = models.CharField(max_length=200, null=True, blank=True)
     link = models.CharField(max_length=200)
     compared_to = models.CharField(max_length=200)
