@@ -1,5 +1,4 @@
-let cookie = document.cookie
-let csrfToken = cookie.substring(cookie.indexOf('=') + 1)
+let csrfToken = $("[name=csrfmiddlewaretoken]").val();
 
 $.fn.toggleFav = function(toggle, id) {
   $.ajax({
