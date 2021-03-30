@@ -20,7 +20,7 @@ from substitute import views
 
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('manage_pb/', admin.site.urls),
     path('', views.index, name='index'),
     path('substitute/', include('substitute.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
