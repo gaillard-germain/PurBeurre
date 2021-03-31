@@ -111,7 +111,7 @@ def togglefav(request):
         toggle = request.POST.get('toggle')
         product = Product.objects.get(id=product_id)
         if request.user.is_authenticated:
-            profile = Profile.objects.get(user=request.user)
+            profile, created = Profile.objects.get_or_create(user=request.user)
             response['allowed'] = True
             if toggle == 'on':
                 profile.favorite.add(product)
@@ -122,7 +122,7 @@ def togglefav(request):
 
 def favorites(request):
     if request.user.is_authenticated:
-        profile = Profile.objects.get(user=request.user)
+        profile, created = Profile.objects.get_or_create(user=request.user)
         favorites = Product.objects.filter(profiles=profile)
         paginator = Paginator(favorites.order_by('nutriscore'), 9)
         page = request.GET.get('page')

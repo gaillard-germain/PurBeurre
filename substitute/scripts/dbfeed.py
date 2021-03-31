@@ -1,6 +1,6 @@
 import requests
 
-from substitute.models import Product
+from substitute.models import Product, Profile
 # from psycopg2.errors import StringDataRightTruncation, NotNullViolation
 
 
@@ -41,7 +41,8 @@ class Dbfeed:
     def feed(cls, page_size, page_nbr):
         """ Added datas from openfoodfacts API to Product"""
 
-        print('Deleting the former products')
+        print('Deleting the formers products and profiles')
+        Profile.objects.all().delete()
         Product.objects.all().delete()
         print('Querying datas...')
         for i in range(page_nbr):
