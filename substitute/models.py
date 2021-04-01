@@ -23,7 +23,8 @@ class Product(models.Model):
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    favorite = models.ManyToManyField(Product, related_name='profiles', blank=True)
+    favorite = models.ManyToManyField(Product, related_name='profiles',
+                                      blank=True)
 
     def __str__(self):
         return self.user.username
