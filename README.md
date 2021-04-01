@@ -19,7 +19,7 @@ If you want to try it on localhost.
 - Install [postgresql](https://www.postgresql.org/download/).
 - Create a data base with it ([Official Documentation](https://www.postgresql.org/docs/)).
 - Modify `DATABASES` lines in /settings.py file of the django project with your username and DB name.
-- To fill the data base launch `./manage.py runscript dbfeed`.
+- To fill the data base launch `./manage.py runscript dbfeed`. Or use the json file in /purbeurrev2_project/substitute/dumps/.
 - To launch the server `./manage.py runserver`.
 - Open your web browser at http://127.0.0.1:8000/
 ### Tests
