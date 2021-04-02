@@ -48,6 +48,12 @@ class IndexPageTestCase(TestCase):
         response = self.client.post(reverse('index'), form)
         self.assertEqual(response.status_code, 302)
 
+    def test_parser_returns_expected(self):
+        form = {'query': 'le caramel au SEL de Guérande'}
+        response = self.client.post(reverse('index'), form)
+        self.assertEqual(response.url,
+                         '/substitute/results/caramel+sel+guerande/')
+
 
 class ResultsPageTestCase(TestCase):
 

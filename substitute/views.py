@@ -6,14 +6,12 @@ from django.contrib import messages
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.db.models import Q
 
-
-import unidecode
-import re
 from collections import Counter
 from string import ascii_lowercase
 
 from .forms import SignUpForm, ProductSearchForm
 from .models import Product, Profile
+from .parser import Parser
 
 
 def signup(request):
@@ -50,9 +48,7 @@ def index(request):
         form = ProductSearchForm(request.POST)
         if form.is_valid():
             query = form.cleaned_data.get('query')
-            query = unidecode.unidecode(query)
-            query = re.split(r'\W+', query)
-            query = "+".join(filter(None,query))
+            query = Parser.parse_entry(query)
             return redirect('substitute:results', query=query)
     else:
         form = ProductSearchForm()
