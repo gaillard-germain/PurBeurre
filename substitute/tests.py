@@ -1,8 +1,12 @@
 from django.test import TestCase
 from django.urls import reverse
 from django.contrib.auth.models import User
-from .models import Product, Profile
 from django.http import JsonResponse
+
+from unittest.mock import patch
+
+from .models import Product, Profile
+from .scripts.dbfeed import Dbfeed
 
 
 class SignUpPageTestCase(TestCase):
@@ -34,6 +38,13 @@ class MyAccountPageTestCase(TestCase):
 
     def test_myaccount_page_returns_200(self):
         response = self.client.get(reverse('substitute:myaccount'))
+        self.assertEqual(response.status_code, 200)
+
+
+class LegalNoticePageTestCase(TestCase):
+
+    def test_legalnotice_page_returns_200(self):
+        response = self.client.get(reverse('substitute:legal_notice'))
         self.assertEqual(response.status_code, 200)
 
 
@@ -188,3 +199,37 @@ class ToggleFavTestCase(TestCase):
         })
         new_fav = profile.favorite.count()
         self.assertEqual(new_fav, old_fav-1)
+
+
+class MockResponse:
+
+    def __init__(self):
+        self.status_code = 200
+
+    def json(self):
+        return {
+            "products": [{
+                "product_name": "Fake Product",
+                "brands": "Fake Brands",
+                "categories_tags": ["fake"],
+                "ingredients_text_fr": "fake",
+                "additives_tags": ["Efake"],
+                "allergens_tags": ["fake"],
+                "nutriscore_grade": "f",
+                "labels": "fake",
+                "stores_tags": ["Fake"],
+                "url": "https://fake",
+                "categories_hierarchy": ["fake1", "fake2", "fake3"],
+                "image_url": "https://fakeimage",
+                "_keywords": "fake"
+            }]
+        }
+
+class DBfeedTestCase(TestCase):
+
+    @patch('requests.get', return_value=MockResponse())
+    def test_dbfeed_add_product(self, mocked):
+        old_prod = Product.objects.count()
+        Dbfeed.feed(20, 1)
+        new_prod = Product.objects.count()
+        self.assertEqual(new_prod, old_prod+1)
