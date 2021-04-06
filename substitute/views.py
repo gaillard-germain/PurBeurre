@@ -1,10 +1,8 @@
 from django.shortcuts import render, redirect
-from django.http import Http404, HttpResponse, JsonResponse
+from django.http import Http404, JsonResponse
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.models import User, Group
-from django.contrib import messages
+from django.contrib.auth.models import Group
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from django.db.models import Q
 
 from collections import Counter
 from string import ascii_lowercase
@@ -129,8 +127,8 @@ def favorites(request):
         except EmptyPage:
             favorites = paginator.page(paginator.num_pages)
         context = {
-        'favorites': favorites,
-        'paginate': True
+            'favorites': favorites,
+            'paginate': True
         }
         return render(request, 'substitute/favorites.html', context)
     else:

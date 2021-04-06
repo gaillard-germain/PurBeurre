@@ -14,7 +14,7 @@ class ProductAdmin(admin.ModelAdmin):
     list_display = ['name', 'compared_to', 'tags']
     search_fields = ['name']
     list_filter = ['compared_to']
-    list_per_page=10
+    list_per_page = 10
 
 
 @admin.register(Profile)
