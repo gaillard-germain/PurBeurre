@@ -24,5 +24,6 @@ If you want to try it on localhost.
 - Open your web browser at http://127.0.0.1:8000/
 ### Tests
 some tests are available: run `./manage.py test` to perform them.
+Note: You'll need [mozilla/geckodriver](https://github.com/mozilla/geckodriver/releases/) to perform Selenium test. Put in the directory that is mentioned in the PATH environment variable. (`echo $PATH` on linux to display a list of all directories that are registered in the PATH variable.)
 ## Online
 You can try it online at: https://sp-purbeurre.herokuapp.com/
