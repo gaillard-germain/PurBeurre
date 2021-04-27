@@ -1,3 +1,7 @@
+# Production settings
+purbeurrev2_project/settings/production.py
+purbeurrev2_project/staticfiles/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
