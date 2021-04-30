@@ -68,13 +68,16 @@ sort_by=unique_scans_n&page_size={}&page={}&json=1'.format(page_size, i+1)
                     link=cls.check_value(entry, 'url'),
                     compared_to=cls.check_value(entry, 'categories_hierarchy'),
                     image_url=cls.check_value(entry, 'image_url'),
-                    keywords=cls.check_value(entry, '_keywords'))
+                    keywords=cls.check_value(entry, '_keywords'),
+                    off_id=cls.check_value(entry,'_id'))
 
                 try:
                     product.save()
                 except Exception as error:
                     print(error)
                     pass
+
+        print('Inserted {} products'.format(len(Product.objects.all())))
 
 
 def run():

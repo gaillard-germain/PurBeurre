@@ -3,7 +3,7 @@ from django.contrib.auth.models import User
 
 
 class Product(models.Model):
-    name = models.CharField(max_length=200)
+    name = models.CharField(max_length=200, unique=True)
     brands = models.CharField(max_length=200)
     tags = models.CharField(max_length=400)
     ingredients = models.TextField()
@@ -16,6 +16,7 @@ class Product(models.Model):
     compared_to = models.CharField(max_length=200)
     image_url = models.CharField(max_length=200)
     keywords = models.CharField(max_length=500)
+    off_id = models.BigIntegerField()
 
     def __str__(self):
         return self.name
