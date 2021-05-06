@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django_extensions',
     'substitute.apps.SubstituteConfig',
-    'django_crontab',
 ]
 
 MIDDLEWARE = [
