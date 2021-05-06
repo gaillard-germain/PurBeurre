@@ -27,7 +27,8 @@ class MockResponse:
                 "categories_hierarchy": ["fake1", "fake2", "fake3"],
                 "image_url": "https://fakeimage",
                 "_keywords": "fake",
-                "_id": "111"
+                "_id": 111,
+                "last_modified_t": 1,
             }]
         }
 

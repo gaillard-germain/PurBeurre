@@ -70,10 +70,11 @@ class ResultsPageTestCase(TestCase):
             name="fake product",
             keywords="fake keywords",
             compared_to="fake",
-            off_id=111
+            off_id=111,
+            last_modified_t=1
             )
         self.product = Product.objects.get(keywords="fake keywords")
-        Product.objects.create(tags="fake tags", off_id=222)
+        Product.objects.create(tags="fake tags", off_id=222, last_modified_t=1)
         self.alternatives = Product.objects.filter(
             tags__icontains=self.product.compared_to).exclude(
                                                 id=self.product.id)
@@ -100,7 +101,8 @@ class FavoritesPageTestCase(TestCase):
         self.user = User.objects.create_user(self.username, self.email,
                                              self.password)
 
-        Product.objects.create(name="fake product", off_id=111)
+        Product.objects.create(name="fake product", off_id=111,
+                               last_modified_t=1)
         self.product = Product.objects.get(name="fake product")
 
         Profile.objects.create(user=self.user)
@@ -118,7 +120,8 @@ class FavoritesPageTestCase(TestCase):
 class DetailPageTestCase(TestCase):
 
     def setUp(self):
-        Product.objects.create(name="fake product", off_id=111)
+        Product.objects.create(name="fake product", off_id=111,
+                               last_modified_t=1)
         self.product = Product.objects.get(name="fake product")
 
     def test_detail_page_returns_200(self):
@@ -136,7 +139,8 @@ class ToggleFavTestCase(TestCase):
         self.password = 'Fake1234'
         self.user = User.objects.create_user(self.username, self.email,
                                              self.password)
-        Product.objects.create(name="fake product", off_id=111)
+        Product.objects.create(name="fake product", off_id=111,
+                               last_modified_t=1)
         self.product = Product.objects.get(name="fake product")
 
         Profile.objects.create(user=self.user)

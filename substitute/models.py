@@ -17,6 +17,7 @@ class Product(models.Model):
     image_url = models.CharField(max_length=200)
     keywords = models.CharField(max_length=500)
     off_id = models.BigIntegerField()
+    last_modified_t = models.BigIntegerField()
 
     def __str__(self):
         return self.name

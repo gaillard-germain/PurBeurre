@@ -1,21 +1,21 @@
 import requests
 
 from substitute.models import Product, Profile
-# from psycopg2.errors import StringDataRightTruncation, NotNullViolation
+import time
 
 
 class Dbfeed:
     @staticmethod
-    def check_value(dict, key):
+    def check_value(dict, key, default=None):
         """ Checks if the field exist in the json from openfoodfacts API
             and return a formated value"""
 
-        value = None
+        value = default
 
         try:
             value = dict[key]
             if not value:
-                value = None
+                value = default
 
             elif key == 'categories_hierarchy':
                 try:
@@ -26,14 +26,12 @@ class Dbfeed:
             elif isinstance(value, list):
                 value = ', '.join(value)
 
-            if value:
+            if value and isinstance(value, str):
                 value = value.replace("en:", "")
                 value = value.replace("fr:", "")
 
         except KeyError as error:
-            print("product {} doesn't have {} field".format(dict['code'],
-                                                            error))
-            print("set it to NULL")
+            pass
 
         return value
 
@@ -42,9 +40,12 @@ class Dbfeed:
         """ Added datas from openfoodfacts API to Product"""
 
         print('Deleting the formers products and profiles')
+
         Profile.objects.all().delete()
         Product.objects.all().delete()
+
         print('Querying datas...')
+
         for i in range(page_nbr):
             search = 'https://fr.openfoodfacts.org/cgi/search.pl?\
 search_terms=&tagtype_0=purchase_places&tag_contains_0=contains&tag_0=france&\
@@ -53,7 +54,7 @@ sort_by=unique_scans_n&page_size={}&page={}&json=1'.format(page_size, i+1)
 
             all = requests.get(search)
             all = all.json()['products']
-
+            
             for entry in all:
                 product = Product(
                     name=cls.check_value(entry, 'product_name'),
@@ -69,7 +70,8 @@ sort_by=unique_scans_n&page_size={}&page={}&json=1'.format(page_size, i+1)
                     compared_to=cls.check_value(entry, 'categories_hierarchy'),
                     image_url=cls.check_value(entry, 'image_url'),
                     keywords=cls.check_value(entry, '_keywords'),
-                    off_id=cls.check_value(entry,'_id'))
+                    off_id=cls.check_value(entry,'_id'),
+                    last_modified_t=int(time.time()))
 
                 try:
                     product.save()

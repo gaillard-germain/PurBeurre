@@ -29,7 +29,8 @@ class PurBeurreSeleniumTestCase(StaticLiveServerTestCase):
             image_url='http://fake.jpg',
             keywords="fake keywords",
             compared_to="fake",
-            off_id=111
+            off_id=111,
+            last_modified_t=1
             )
         Product.objects.create(
             name='test product',
@@ -45,7 +46,8 @@ class PurBeurreSeleniumTestCase(StaticLiveServerTestCase):
             image_url='http://test.jpg',
             keywords="test try",
             compared_to="test",
-            off_id=222
+            off_id=222,
+            last_modified_t=1
             )
 
     def test_create_account_and_add_fav(self):

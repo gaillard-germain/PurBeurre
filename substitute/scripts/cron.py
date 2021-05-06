@@ -94,5 +94,5 @@ class Dbupdate:
         print('{} products updated'.format(counter))
 
 
-def launch_update():
+def run():
     Dbupdate.update()
