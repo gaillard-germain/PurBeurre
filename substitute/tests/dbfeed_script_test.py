@@ -38,6 +38,6 @@ class DBfeedTestCase(TestCase):
     @patch('requests.get', return_value=MockResponse())
     def test_dbfeed_add_product(self, mocked):
         old_prod = Product.objects.count()
-        Dbfeed.feed(20, 1)
+        Dbfeed.feed()
         new_prod = Product.objects.count()
         self.assertEqual(new_prod, old_prod+1)

@@ -67,14 +67,14 @@ class ResultsPageTestCase(TestCase):
 
     def setUp(self):
         Product.objects.create(
+            id=1,
             name="fake product",
             keywords="fake keywords",
             compared_to="fake",
-            off_id=111,
             last_modified_t=1
             )
         self.product = Product.objects.get(keywords="fake keywords")
-        Product.objects.create(tags="fake tags", off_id=222, last_modified_t=1)
+        Product.objects.create(id=2, tags="fake tags", last_modified_t=1)
         self.alternatives = Product.objects.filter(
             tags__icontains=self.product.compared_to).exclude(
                                                 id=self.product.id)
@@ -101,7 +101,7 @@ class FavoritesPageTestCase(TestCase):
         self.user = User.objects.create_user(self.username, self.email,
                                              self.password)
 
-        Product.objects.create(name="fake product", off_id=111,
+        Product.objects.create(id=1, name="fake product",
                                last_modified_t=1)
         self.product = Product.objects.get(name="fake product")
 
@@ -120,7 +120,7 @@ class FavoritesPageTestCase(TestCase):
 class DetailPageTestCase(TestCase):
 
     def setUp(self):
-        Product.objects.create(name="fake product", off_id=111,
+        Product.objects.create(id=1, name="fake product",
                                last_modified_t=1)
         self.product = Product.objects.get(name="fake product")
 
@@ -139,7 +139,7 @@ class ToggleFavTestCase(TestCase):
         self.password = 'Fake1234'
         self.user = User.objects.create_user(self.username, self.email,
                                              self.password)
-        Product.objects.create(name="fake product", off_id=111,
+        Product.objects.create(id=1, name="fake product",
                                last_modified_t=1)
         self.product = Product.objects.get(name="fake product")
 

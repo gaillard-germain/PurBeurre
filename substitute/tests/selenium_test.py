@@ -16,6 +16,7 @@ class PurBeurreSeleniumTestCase(StaticLiveServerTestCase):
         self.addCleanup(self.driver.quit)
 
         Product.objects.create(
+            id=1,
             name='fake product',
             brands='fake brand',
             tags='fake, test',
@@ -29,10 +30,10 @@ class PurBeurreSeleniumTestCase(StaticLiveServerTestCase):
             image_url='http://fake.jpg',
             keywords="fake keywords",
             compared_to="fake",
-            off_id=111,
             last_modified_t=1
             )
         Product.objects.create(
+            id=2,
             name='test product',
             brands='test brand',
             tags='fake, test',
@@ -46,7 +47,6 @@ class PurBeurreSeleniumTestCase(StaticLiveServerTestCase):
             image_url='http://test.jpg',
             keywords="test try",
             compared_to="test",
-            off_id=222,
             last_modified_t=1
             )
 
