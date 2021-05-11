@@ -50,8 +50,9 @@ def index(request):
             return redirect('substitute:results', query=query)
     else:
         form = ProductSearchForm()
-        
+
     context = {'form': form}
+    
     return render(request, 'substitute/index.html', context)
 
 
