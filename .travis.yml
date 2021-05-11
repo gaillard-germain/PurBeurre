@@ -17,3 +17,4 @@ services:
 
 script:
   - ./manage.py test
+  - ./manage.py test substitute.tests.selenium_test
