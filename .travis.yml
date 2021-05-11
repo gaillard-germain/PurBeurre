@@ -8,7 +8,6 @@ branches:
 
 before_script:
   - pip install -r requirements.txt
-  - install-webdrivers --path webdrivers
 
 env: DJANGO_SETTINGS_MODULE="purbeurrev2_project.settings.travis"
 
@@ -17,3 +16,4 @@ services:
 
 script:
   - ./manage.py test
+  - ./manage.py test substitute.tests.selenium_test
