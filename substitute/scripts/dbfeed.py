@@ -35,7 +35,7 @@ class Dbfeed:
         return value
 
     @classmethod
-    def get_products(cls, page_size, page_nbr):
+    def get_products(cls, page_size, page_nbr, sort_by):
         """ Returns a list of products pages from OpenFoodFacts API """
 
         pages = []
@@ -43,7 +43,7 @@ class Dbfeed:
             search = 'https://fr.openfoodfacts.org/cgi/search.pl?\
 search_terms=&tagtype_0=purchase_places&tag_contains_0=contains&tag_0=france&\
 tagtype_1=states&tag_contains_1=contains&tag_1=complete&\
-sort_by=unique_scans_n&page_size={}&page={}&json=1'.format(page_size, i+1)
+sort_by={}&page_size={}&page={}&json=1'.format(sort_by, page_size, i+1)
 
             all = requests.get(search)
             all = all.json()['products']
@@ -87,7 +87,7 @@ sort_by=unique_scans_n&page_size={}&page={}&json=1'.format(page_size, i+1)
 
         print('Querying datas...')
 
-        pages = cls.get_products(500, 4)
+        pages = cls.get_products(500, 4, 'unique_scans_n')
 
         for page in pages:
             for entry in page:

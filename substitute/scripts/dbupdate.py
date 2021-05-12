@@ -5,12 +5,14 @@ from .dbfeed import Dbfeed
 
 
 class Dbupdate:
-    
+
     @classmethod
     def update(cls):
         """ Updates datas from openfoodfacts API to Product"""
 
-        pages = Dbfeed.get_products(500, 4)
+        print('Querying datas...')
+
+        pages = Dbfeed.get_products(100, 1, 'last_modified_t')
 
         for page in pages:
             for entry in page:

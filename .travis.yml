@@ -2,6 +2,9 @@ language: python
 python:
   - '3.8'
 
+addons:
+  - firefox: '88.0.1'
+
 branches:
   only:
     - staging
@@ -17,3 +20,4 @@ services:
 script:
   - ./manage.py test
   - ./manage.py test substitute.tests.selenium_test
+  - ./manage.py test substitute.tests.dbfeed_script_test
