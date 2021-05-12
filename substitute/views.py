@@ -52,6 +52,7 @@ def index(request):
         form = ProductSearchForm()
 
     context = {'form': form}
+    
     return render(request, 'substitute/index.html', context)
 
 
