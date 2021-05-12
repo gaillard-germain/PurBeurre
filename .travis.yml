@@ -1,9 +1,8 @@
+addons:
+  firefox: latest
 language: python
 python:
   - '3.8'
-
-addons:
-  - firefox: '88.0.1'
 
 branches:
   only:

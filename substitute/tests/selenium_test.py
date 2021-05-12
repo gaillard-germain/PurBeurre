@@ -1,6 +1,7 @@
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 
 from selenium import webdriver
+from selenium.webdriver import FirefoxOptions
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
@@ -12,8 +13,11 @@ from ..models import Product
 class PurBeurreSeleniumTestCase(StaticLiveServerTestCase):
 
     def setUp(self):
+        opts = FirefoxOptions()
+        opts.add_argument("--headless")
         self.driver = webdriver.Firefox(
-            executable_path=GeckoDriverManager().install()
+            executable_path=GeckoDriverManager().install(),
+            firefox_options=opts
         )
         self.wait = WebDriverWait(self.driver, 1000)
         self.addCleanup(self.driver.quit)
