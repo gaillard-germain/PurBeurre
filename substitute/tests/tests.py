@@ -52,15 +52,18 @@ class IndexPageTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_index_page_returns_302(self):
-        form = {'query': 'fake'}
+        form = {'query': 'fake', 'filter': 'gluten'}
         response = self.client.post(reverse('index'), form)
         self.assertEqual(response.status_code, 302)
 
     def test_parser_returns_expected(self):
-        form = {'query': 'le caramel au SEL de Guérande'}
+        form = {
+            'query': 'le caramel au SEL de Guérande',
+            'filter': 'gluten'
+        }
         response = self.client.post(reverse('index'), form)
         self.assertEqual(response.url,
-                         '/substitute/results/caramel+sel+guerande/')
+                         '/substitute/results/caramel+sel+guerande/gluten/')
 
 
 class ResultsPageTestCase(TestCase):
@@ -81,14 +84,16 @@ class ResultsPageTestCase(TestCase):
 
     def test_results_page_returns_200(self):
         query = "fake+keywords"
+        filter = "gluten"
         response = self.client.get(reverse('substitute:results',
-                                   args=(query,)))
+                                   args=(query, filter)))
         self.assertEqual(response.status_code, 200)
 
     def test_results_page_returns_404(self):
         query = "nothing+will+match"
+        filter = "gluten"
         response = self.client.get(reverse('substitute:results',
-                                   args=(query,)))
+                                   args=(query, filter)))
         self.assertEqual(response.status_code, 404)
 
 

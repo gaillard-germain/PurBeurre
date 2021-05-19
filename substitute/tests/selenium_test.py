@@ -7,7 +7,7 @@ from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.common.keys import Keys
 from webdriver_manager.firefox import GeckoDriverManager
 
-from ..models import Product
+from ..models import Product, Allergen
 
 
 class PurBeurreSeleniumTestCase(StaticLiveServerTestCase):
@@ -22,14 +22,15 @@ class PurBeurreSeleniumTestCase(StaticLiveServerTestCase):
         self.wait = WebDriverWait(self.driver, 1000)
         self.addCleanup(self.driver.quit)
 
-        Product.objects.create(
+        allergen = Allergen.objects.create(name='fake')
+
+        product = Product.objects.create(
             id=1,
             name='fake product',
             brands='fake brand',
             tags='fake, test',
             ingredients='fake, fake',
             additives='E111, E222',
-            allergens='fake',
             labels='fake label',
             stores='super fake',
             link="https://fake-product.html",
@@ -38,15 +39,16 @@ class PurBeurreSeleniumTestCase(StaticLiveServerTestCase):
             keywords="fake keywords",
             compared_to="fake",
             last_modified_t=1
-            )
-        Product.objects.create(
+        )
+        product.allergens.add(allergen)
+
+        product = Product.objects.create(
             id=2,
             name='test product',
             brands='test brand',
             tags='fake, test',
             ingredients='test, test',
             additives='E111, E222',
-            allergens='test',
             labels='test label',
             stores='super test',
             link="https://test-product.html",
@@ -55,7 +57,8 @@ class PurBeurreSeleniumTestCase(StaticLiveServerTestCase):
             keywords="test try",
             compared_to="test",
             last_modified_t=1
-            )
+        )
+        product.allergens.add(allergen)
 
     def test_create_account_and_add_fav(self):
         self.driver.get(self.live_server_url)
@@ -94,8 +97,9 @@ class PurBeurreSeleniumTestCase(StaticLiveServerTestCase):
         self.wait.until(lambda driver:
                         self.driver.find_element_by_id("substitutes"))
 
+        print(self.driver.current_url)
         assert self.driver.current_url.endswith(
-            '/substitute/results/fake+keywords/')
+            '/substitute/results/fake+keywords/no%20filter/')
 
         self.driver.find_element_by_class_name("add-fav").click()
         self.wait.until(lambda driver:

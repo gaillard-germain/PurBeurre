@@ -16,10 +16,12 @@
     {% if alternatives|length_is:"0" %}
       <div class="text-center col-12">
         <h4 class="my-4">Aucun substitut trouvé pour cet aliment !</h4>
+        <p class="small text-white">Filtre actif: <strong>{{ filter }}</strong></p>
       </div>
     {% else %}
       <div class="text-center col-12">
           <h4 class="my-4">Vous pourriez remplacer cet aliment par:</h4>
+          <p class="small text-white">Filtre actif: <strong>{{ filter }}</strong></p>
       </div>
       {% for alternative in alternatives %}
       <div class="container col-md-6 col-lg-4 my-4 text-center">

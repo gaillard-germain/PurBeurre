@@ -26,7 +26,11 @@
       <tr>
         <td class="font-weight-bold">Allergènes:</td>
         {% if product.allergens %}
-          <td>{{ product.allergens }}</td>
+          <td>
+            {% for allergen in allergens %}
+            {{ allergen.name|title }}
+            {% endfor %}
+          </td>
         {% else %}
           <td>Aucun</td>
         {% endif %}

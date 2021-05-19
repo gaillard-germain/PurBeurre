@@ -2,6 +2,13 @@ from django.db import models
 from django.contrib.auth.models import User
 
 
+class Allergen(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+
+    def __str__(self):
+        return self.name
+
+
 class Product(models.Model):
     id = models.BigIntegerField(primary_key=True)
     name = models.CharField(max_length=200, unique=True)
@@ -9,7 +16,8 @@ class Product(models.Model):
     tags = models.CharField(max_length=400)
     ingredients = models.TextField()
     additives = models.CharField(max_length=300, null=True, blank=True)
-    allergens = models.CharField(max_length=300, null=True, blank=True)
+    allergens = models.ManyToManyField(Allergen, related_name='products',
+                                       blank=True)
     nutriscore = models.CharField(max_length=1)
     labels = models.CharField(max_length=400, null=True, blank=True)
     stores = models.CharField(max_length=200, null=True, blank=True)

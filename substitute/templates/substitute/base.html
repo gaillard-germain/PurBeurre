@@ -37,6 +37,8 @@
                           <form class="" action="{% url 'substitute:index' %}" method="post" accept-charset="utf-8">
                           {% csrf_token %}
                             <input id="searchForm" class="form-control bg-light" name="query" placeholder="Chercher">
+                            <input id="filterForm" class="d-none form-control bg-light" name="filter" value="no filter">
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
                           </form>
                         </li>
                         {% if user.is_authenticated %}

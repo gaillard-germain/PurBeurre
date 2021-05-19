@@ -8,7 +8,7 @@ from collections import Counter
 from string import ascii_lowercase
 
 from .forms import SignUpForm, ProductSearchForm
-from .models import Product, Profile
+from .models import Product, Profile, Allergen
 from .parser import Parser
 
 
@@ -47,7 +47,8 @@ def index(request):
         if form.is_valid():
             query = form.cleaned_data.get('query')
             query = Parser.parse_entry(query)
-            return redirect('substitute:results', query=query)
+            filter = form.cleaned_data.get('filter')
+            return redirect('substitute:results', query=query, filter=filter)
     else:
         form = ProductSearchForm()
 
@@ -55,7 +56,7 @@ def index(request):
     return render(request, 'substitute/index.html', context)
 
 
-def results(request, query):
+def results(request, query, filter):
     words = query.split("+")
     products = []
     for word in words:
@@ -67,6 +68,13 @@ def results(request, query):
 
     alternatives = Product.objects.filter(tags__icontains=product.compared_to)
     alternatives = alternatives.exclude(id=product.id)
+
+    if filter != 'no filter':
+        alternatives = alternatives.exclude(allergens__name=filter)
+        filter = 'sans {}'.format(filter)
+    else:
+        filter = 'Aucun'
+
     nutriscores = ascii_lowercase[:ascii_lowercase.index('e')+1]
     for letter in nutriscores[nutriscores.index(product.nutriscore)+1:]:
         alternatives = alternatives.exclude(nutriscore=letter)
@@ -86,6 +94,7 @@ def results(request, query):
         favorites = []
     context = {
         'product': product,
+        'filter': filter,
         'alternatives': alternatives,
         'favorites': favorites,
         'paginate': True
@@ -95,7 +104,8 @@ def results(request, query):
 
 def detail(request, product_id):
     product = Product.objects.get(id=product_id)
-    context = {'product': product}
+    allergens = Allergen.objects.filter(products__id=product.id)
+    context = {'product': product, 'allergens': allergens}
     return render(request, 'substitute/detail.html', context)
 
 
