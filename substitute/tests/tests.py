@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 
-from ..models import Product, Profile
+from ..models import Product, Profile, Allergen
 
 
 class SignUpPageTestCase(TestCase):
@@ -64,6 +64,14 @@ class IndexPageTestCase(TestCase):
         response = self.client.post(reverse('index'), form)
         self.assertEqual(response.url,
                          '/substitute/results/caramel+sel+guerande/gluten/')
+
+
+class AllergenFilterTestCase(TestCase):
+
+    def test_filter_form_has_default(self):
+        response = self.client.get(reverse('index'))
+        self.assertEqual(response.context['form'].FILTER_CHOICES[0][0],
+                         'no filter')
 
 
 class ResultsPageTestCase(TestCase):
