@@ -16,6 +16,6 @@ class Parser:
         for word in entry:
             if word not in cls.FORBID and word not in ascii_lowercase:
                 result.append(word)
-        result = "+".join(filter(None, result))
+        result = "&".join(filter(None, result))
 
         return result
