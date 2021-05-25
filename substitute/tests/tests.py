@@ -4,6 +4,7 @@ from django.contrib.auth.models import User
 from django.http import JsonResponse
 
 from ..models import Product, Profile, Allergen
+from ..forms import ProductSearchForm
 
 
 class SignUpPageTestCase(TestCase):
@@ -66,7 +67,15 @@ class IndexPageTestCase(TestCase):
                          '/substitute/results/caramel+sel+guerande/gluten/')
 
 
-class AllergenFilterTestCase(TestCase):
+class SearchFormTestCase(TestCase):
+
+    def test_form_is_valid(self):
+        form_data = {
+            'query': 'le caramel au SEL de Guérande',
+            'filter': 'gluten'
+        }
+        form = ProductSearchForm(data=form_data)
+        self.assertTrue(form.is_valid())
 
     def test_filter_form_has_default(self):
         response = self.client.get(reverse('index'))
