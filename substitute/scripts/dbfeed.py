@@ -46,7 +46,7 @@ class Dbfeed:
                 value = value.replace("en:", "")
                 value = value.replace("fr:", "")
 
-        except KeyError as error:
+        except KeyError:
             pass
 
         return value
@@ -92,7 +92,7 @@ sort_by={}&page_size={}&page={}&json=1'.format(sort_by, page_size, i+1)
         """ Adds a product to database """
 
         product = Product(
-            id = int(entry['_id']),
+            id=int(entry['_id']),
             name=cls.check_value(entry, 'product_name'),
             brands=cls.check_value(entry, 'brands'),
             tags=cls.check_value(entry, 'categories_tags'),

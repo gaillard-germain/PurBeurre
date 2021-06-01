@@ -15,13 +15,9 @@ class AllergenProductsInLine(admin.TabularInline):
     extra = 0
 
 
-@admin.register(Allergen)
-class ProductAdmin(admin.ModelAdmin):
-    inlines = [AllergenProductsInLine, ]
-
-
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
+    inlines = [AllergenProductsInLine, ]
     list_display = ['name', 'compared_to', 'tags']
     search_fields = ['name']
     list_filter = ['compared_to']

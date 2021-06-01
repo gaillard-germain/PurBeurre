@@ -13,7 +13,7 @@ class SignUpForm(UserCreationForm):
 
 class ProductSearchForm(forms.Form):
     FILTER_CHOICES = [
-    ('no filter', 'Aucun filtre (allergènes)')
+        ('no filter', 'Aucun filtre (allergènes)')
     ]
 
     for allergen in Allergen.objects.all().exclude(name='aucun'):

@@ -97,7 +97,6 @@ class PurBeurreSeleniumTestCase(StaticLiveServerTestCase):
         self.wait.until(lambda driver:
                         self.driver.find_element_by_id("substitutes"))
 
-        print(self.driver.current_url)
         assert self.driver.current_url.endswith(
             '/substitute/results/fake+keywords/no%20filter/')
 

@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 
-from ..models import Product, Profile, Allergen
+from ..models import Product, Profile
 from ..forms import ProductSearchForm
 
 

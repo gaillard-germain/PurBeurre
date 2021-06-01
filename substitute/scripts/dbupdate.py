@@ -1,5 +1,3 @@
-import requests
-
 from substitute.models import Product
 from .dbfeed import Dbfeed
 
@@ -19,6 +17,7 @@ class Dbupdate:
                 Dbfeed.add_product(entry)
 
         print('Total: {} products'.format(len(Product.objects.all())))
+
 
 def run():
     Dbupdate.update()
