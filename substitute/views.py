@@ -4,9 +4,6 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import Group
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
-from collections import Counter
-from string import ascii_lowercase
-
 from .forms import SignUpForm, ProductSearchForm
 from .models import Product, Profile, Allergen
 from .parser import Parser
@@ -57,27 +54,11 @@ def index(request):
 
 
 def results(request, query, filter):
-    words = query.split("+")
-    products = []
-    for word in words:
-        products += Product.objects.filter(keywords__icontains=word)
-    try:
-        product = max(Counter(products), key=Counter(products).get)
-    except ValueError:
-        raise Http404("Aucun produit correspondant")
-
-    alternatives = Product.objects.filter(tags__icontains=product.compared_to)
-    alternatives = alternatives.exclude(id=product.id)
-
-    if filter != 'no filter':
-        alternatives = alternatives.exclude(allergens__name=filter)
-        filter = 'sans {}'.format(filter)
+    product = Product.get_product(query)
+    if product:
+        alternatives = Product.get_alternatives(product, filter)
     else:
-        filter = 'Aucun'
-
-    nutriscores = ascii_lowercase[:ascii_lowercase.index('e')+1]
-    for letter in nutriscores[nutriscores.index(product.nutriscore)+1:]:
-        alternatives = alternatives.exclude(nutriscore=letter)
+        raise Http404("Aucun produit correspondant")
 
     paginator = Paginator(alternatives.order_by('nutriscore'), 9)
     page = request.GET.get('page')
