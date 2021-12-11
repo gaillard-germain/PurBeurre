@@ -1,5 +1,8 @@
 # PurBeurreV2
 Pur Beurre is the result of my project 8 as part of my OpenClassRooms training as a Python developer. It is part of the continuity of project 5.
+
+![PurBeurreV2 screenshot](purbeurre.png "PurBeurreV2 screenshot")
+
 ## About
 It is a web application that allows users to enter the designation of a food product to find a healthier equivalent. The user has the possibility of registering products in favorites but must then have or create an account.
 ## Sources
